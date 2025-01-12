@@ -3,7 +3,8 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   modules: [
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@nuxtjs/tailwindcss'
   ],
   app: {
     head: {
@@ -17,7 +18,24 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.API_BASE || 'http://localhost:3000/api'
+      apiBase: 'http://localhost:80/api'  // Update this
+    }
+  },
+  vite: {
+    server: {
+      hmr: {
+        protocol: 'ws',
+        host: '0.0.0.0'
+      }
+    }
+  },
+  nitro: {
+    devProxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        prependPath: true
+      }
     }
   }
 })
